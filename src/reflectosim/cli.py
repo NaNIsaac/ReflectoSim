@@ -33,7 +33,7 @@ def _sim(args) -> int:
     batch = simulate(stack, inst, q, n=args.n, seed=_seed(args.seed))
     out = dataset.write(args.out, batch, stack, inst)
     print(f"wrote {out}: {args.n} curves x {q.size} points, oxide {stack.oxide}, "
-          f"{batch.nodes} resolution nodes")  # fmt: skip
+          f"resolution nodes {batch.nodes or 'per point'}")  # fmt: skip
     return 0
 
 

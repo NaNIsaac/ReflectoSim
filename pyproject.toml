@@ -42,7 +42,7 @@ dev = [
 
 # reflectofit is not on PyPI yet: pinned to a commit of NaNIsaac/ReflectoFit#2 until its first release.
 [tool.uv.sources]
-reflectofit = { git = "https://github.com/NaNIsaac/ReflectoFit", rev = "44e6a0cf6f5c71bdc573c51d4b98bdc14d058a14" }
+reflectofit = { git = "https://github.com/NaNIsaac/ReflectoFit", rev = "edd0dcc1698c381938d72037b3b77f9a5c79a7ea" }
 
 [build-system]
 requires = ["uv_build>=0.12.7,<0.13"]
