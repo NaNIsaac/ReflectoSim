@@ -71,7 +71,8 @@ def _row(batch, i):
         "sample_length",
         "beam_sigma",
     )
-    inst = Instrument(**{k: float(p[k][i]) for k in names})
+    # the dataset fixes one resolution node count for all rows (independent of chunking)
+    inst = Instrument(**{k: float(p[k][i]) for k in names}, nodes=batch.nodes)
     return Stack(layers, sub), inst
 
 

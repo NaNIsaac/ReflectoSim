@@ -273,7 +273,7 @@ wheels = [
 [[package]]
 name = "reflectofit"
 version = "0.1.0.dev0"
-source = { git = "https://github.com/NaNIsaac/ReflectoFit?rev=0e7e21693e69a57378dc5cb4444ad9b2a222a4cb#0e7e21693e69a57378dc5cb4444ad9b2a222a4cb" }
+source = { git = "https://github.com/NaNIsaac/ReflectoFit?rev=44e6a0cf6f5c71bdc573c51d4b98bdc14d058a14#44e6a0cf6f5c71bdc573c51d4b98bdc14d058a14" }
 dependencies = [
     { name = "numba" },
     { name = "numpy" },
@@ -305,7 +305,7 @@ dev = [
 requires-dist = [
     { name = "h5py", marker = "extra == 'hdf5'", specifier = ">=3.10" },
     { name = "numpy", specifier = ">=2.0" },
-    { name = "reflectofit", git = "https://github.com/NaNIsaac/ReflectoFit?rev=0e7e21693e69a57378dc5cb4444ad9b2a222a4cb" },
+    { name = "reflectofit", git = "https://github.com/NaNIsaac/ReflectoFit?rev=44e6a0cf6f5c71bdc573c51d4b98bdc14d058a14" },
 ]
 provides-extras = ["hdf5"]
 
