@@ -16,6 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Physics",
+    "Typing :: Typed",
 ]
 requires-python = ">=3.12"
 dependencies = [
@@ -33,6 +34,7 @@ reflectosim = "reflectosim.cli:main"
 Homepage = "https://github.com/NaNIsaac/ReflectoSim"
 Repository = "https://github.com/NaNIsaac/ReflectoSim"
 Issues = "https://github.com/NaNIsaac/ReflectoSim/issues"
+Changelog = "https://github.com/NaNIsaac/ReflectoSim/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
