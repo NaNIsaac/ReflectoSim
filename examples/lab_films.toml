@@ -1,0 +1,32 @@
+# One to three films with native SiO2 under them on a Si wafer, measured on a Cu Kα lab instrument.
+# Ranges are [low, high], drawn uniformly per curve. Units: Å, 1e-6 Å^-2, Å^-1, degrees, mm.
+
+[stack]
+n_layers = [1, 3]
+thickness = [20.0, 250.0]
+roughness = [2.0, 10.0]
+roughness_max_ratio = 0.25   # sigma <= d / 4
+sld = [5.0, 80.0]
+isld_ratio = [0.005, 0.05]   # Im SLD as a fraction of Re SLD
+min_contrast = 4.0           # adjacent media differ by at least this much in Re SLD
+oxide = "under"              # "under" (on the substrate), "over" (on top) or "none"; always stated
+
+[oxide]
+thickness = [5.0, 25.0]
+roughness = [1.0, 5.0]
+sld = [17.2, 19.7]
+
+[substrate]
+material = "Si"
+density = 2.33
+roughness = [1.0, 5.0]
+
+[instrument]
+sigma_q = [5e-4, 3e-3]       # Gaussian resolution sigma in q
+tth_offset = [-0.01, 0.01]   # degrees
+i0 = [0.8, 1.2]
+log_background = [-8.5, -7.0]
+kalpha2_ratio = [0.0, 0.0]
+sample_length = [8.0, 20.0]  # mm, with beam_sigma for the footprint
+beam_sigma = [0.02, 0.06]
+log_counts = [6.0, 8.0]      # log10 counts at R = 1
