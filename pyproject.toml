@@ -1,0 +1,58 @@
+[project]
+name = "reflectosim"
+version = "0.1.0.dev0"
+description = "Realistic synthetic X-ray reflectivity data for machine learning"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Isaac Yong", email = "isaacyong@naver.com" }]
+keywords = ["x-ray reflectivity", "XRR", "simulation", "synthetic data", "machine learning"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.0",
+    "reflectofit",
+]
+
+[project.optional-dependencies]
+hdf5 = ["h5py>=3.10"]
+
+[project.scripts]
+reflectosim = "reflectosim.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/NaNIsaac/ReflectoSim"
+Repository = "https://github.com/NaNIsaac/ReflectoSim"
+Issues = "https://github.com/NaNIsaac/ReflectoSim/issues"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "h5py>=3.10",
+]
+
+# reflectofit is not on PyPI yet: pinned to a commit of NaNIsaac/ReflectoFit#2 until its first release.
+[tool.uv.sources]
+reflectofit = { git = "https://github.com/NaNIsaac/ReflectoFit", rev = "0e7e21693e69a57378dc5cb4444ad9b2a222a4cb" }
+
+[build-system]
+requires = ["uv_build>=0.12.7,<0.13"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+extend-select = ["B", "I", "UP"]
