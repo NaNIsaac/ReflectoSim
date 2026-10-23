@@ -79,6 +79,10 @@ class InstrumentPrior:
     log_counts: Range = (8.0, 8.0)
     """log10 of the counts at R = 1."""
     wavelength: float = 1.5406
+    nodes: int | None = None
+    """Resolution nodes for the whole dataset. None takes ReflectoFit's converged count for the widest
+    resolution and thickest stack in the dataset (within 1e-8 of a brute-force convolution), which
+    grows as 1 / sigma_q: 131 nodes at sigma_q 3e-3. A smaller fixed count is faster and less accurate."""
 
 
 def _u(rng, r: Range, size):
@@ -192,3 +196,17 @@ def load(path: str | Path) -> tuple[StackPrior, InstrumentPrior]:
         k: tuple(v) if isinstance(v, list) else v for k, v in spec.get("instrument", {}).items()
     }
     return StackPrior(**tup, oxide_prior=oxide, substrate=substrate), InstrumentPrior(**inst)
+
+
+def from_metadata(meta: dict) -> tuple[StackPrior, InstrumentPrior]:
+    """The priors stored in a dataset's metadata (`dataset.read`), to regenerate it."""
+
+    def tuples(d: dict) -> dict:
+        return {k: tuple(v) if isinstance(v, list) else v for k, v in d.items()}
+
+    s = dict(meta["stack_prior"])
+    oxide = OxidePrior(**tuples(s.pop("oxide_prior")))
+    sub = s.pop("substrate")
+    substrate = SubstratePrior(sld=complex(*sub["sld"]), roughness=tuple(sub["roughness"]))
+    stack = StackPrior(**tuples(s), oxide_prior=oxide, substrate=substrate)
+    return stack, InstrumentPrior(**tuples(meta["instrument_prior"]))

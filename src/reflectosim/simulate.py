@@ -107,7 +107,12 @@ def simulate(
     packed = pack(prior, params)
 
     sigma_max = float(np.sqrt(params["sigma_q"] ** 2 + (params["dq_over_q"] * q.max()) ** 2).max())
-    nodes = resolution_nodes(sigma_max, float(packed[1].sum(1).max())) if sigma_max > 0 else 1
+    if sigma_max == 0:
+        nodes = 1
+    elif instrument.nodes is not None:
+        nodes = instrument.nodes
+    else:
+        nodes = resolution_nodes(sigma_max, float(packed[1].sum(1).max()))
     footprint = not np.isnan(params["sample_length"]).all()
 
     reflectivity = np.empty((n, q.size))
