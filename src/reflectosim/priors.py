@@ -80,9 +80,11 @@ class InstrumentPrior:
     """log10 of the counts at R = 1."""
     wavelength: float = 1.5406
     nodes: int | None = None
-    """None (default): ReflectoFit's converged per-point rule, within about 1e-5 of a brute-force
-    convolution; it costs most for wide resolution and weakly absorbing films. An int fixes the node
-    count for every point: faster, less accurate. Per NaNIsaac DECISIONS #24, fix it only with an
+    """None (default): ReflectoFit's per-point rule (windows split at the critical edges, refined
+    between them; ReflectoFit#8), within 1e-4 of a brute-force convolution on its confirmation grids
+    (worst 8.8e-6), real SLDs included; `reflectofit.forward.resolution_report` gives its estimated
+    error per point. An int fixes the node count for every point; a fixed count is not accurate at
+    the edges of non-absorbing films. Per NaNIsaac DECISIONS #24, fix it only with an
     error budget against the counting noise stated in advance; the count is recorded in the metadata."""
 
 

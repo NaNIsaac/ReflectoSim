@@ -48,7 +48,10 @@ The dataset layout, the prior file format and the Python API are in the
 
 ## Accuracy and cost
 
-By default the resolution integral is converged to about 1e-5 (ReflectoFit's per-point rule), which
-is the slow part for wide resolution and weakly absorbing films. `InstrumentPrior.nodes` fixes a
-smaller node count for speed; per NaNIsaac DECISIONS #24 that is for generators who state an error
-budget against the counting noise in advance and record it in the dataset metadata.
+By default the resolution integral uses ReflectoFit's per-point rule: each window is split at the
+critical edges and refined between them, within 1e-4 of a brute-force convolution on ReflectoFit's
+confirmation grids, real SLDs and superlattices included, at about 0.75 s for 64 curves of 2000
+points (ReflectoFit#8). `InstrumentPrior.nodes` fixes a node count instead; a fixed count is not
+accurate at the edges of non-absorbing films, and per NaNIsaac DECISIONS #24 it is for generators
+who state an error budget against the counting noise in advance and record it in the dataset
+metadata.
