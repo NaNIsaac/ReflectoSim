@@ -16,6 +16,12 @@ the fitting engine; ReflectoSim adds the data distribution and has no physics of
 noise, every curve equals `reflectofit.forward` for its row, a curve does not depend on how the work
 is chunked, and the same seed gives the same file.
 
+The same seed gives the same file only with the same ReflectoFit version and settings. The parameters
+and the noise use separate random streams, so the parameters of a seed never depend on the curves.
+The counts do: NumPy's Poisson sampler draws a number of random numbers that depends on the expected
+counts, so a change to the curves (another ReflectoFit version, another node count) changes the
+counts of every later curve in the same 4096-row noise block, not only of the curves that changed.
+
 ## Install
 
 Not on PyPI yet. From a clone, with [uv](https://docs.astral.sh/uv/) (it fetches ReflectoFit from
