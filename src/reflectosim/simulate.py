@@ -2,8 +2,8 @@
 
 Curves before noise are `reflectofit.forward` for each row (this package has no physics of its own).
 Rows with fewer layers than the prior's maximum are padded with zero-thickness layers that match the
-medium below, which leaves the curve unchanged. One resolution node count is fixed for the whole
-dataset, so a row's curve does not depend on how the work is chunked.
+medium below, which leaves the curve unchanged. The resolution nodes are chosen per curve (or fixed
+by the prior), so a row's curve does not depend on how the work is chunked.
 """
 
 from dataclasses import dataclass
@@ -11,7 +11,6 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import NDArray
 from reflectofit import Instrument, forward
-from reflectofit.forward import resolution_nodes
 
 from reflectosim.noise import poisson_counts
 from reflectosim.priors import InstrumentPrior, StackPrior, draw_instruments, draw_stacks
@@ -31,7 +30,8 @@ class Batch:
     """Observed reflectivity before noise: I0 · (smeared R) + background, per row."""
     counts: NDArray
     oxide: str
-    nodes: int
+    nodes: int | None
+    """The fixed resolution node count, or None for ReflectoFit's converged per-point rule."""
     seed: object
 
 
@@ -106,13 +106,9 @@ def simulate(
     params = draw_stacks(prior, n, rng) | draw_instruments(instrument, n, rng)
     packed = pack(prior, params)
 
-    sigma_max = float(np.sqrt(params["sigma_q"] ** 2 + (params["dq_over_q"] * q.max()) ** 2).max())
-    if sigma_max == 0:
-        nodes = 1
-    elif instrument.nodes is not None:
-        nodes = instrument.nodes
-    else:
-        nodes = resolution_nodes(sigma_max, float(packed[1].sum(1).max()))
+    # None: ReflectoFit chooses nodes per point from each curve's own stack and instrument, so a
+    # curve does not depend on its chunk; an int fixes the count for every point (DECISIONS #24)
+    nodes = instrument.nodes
     footprint = not np.isnan(params["sample_length"]).all()
 
     reflectivity = np.empty((n, q.size))

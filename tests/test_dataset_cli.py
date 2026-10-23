@@ -87,7 +87,7 @@ def test_cli_sim_and_describe(tmp_path, capsys):
 def test_node_count_can_be_fixed_for_speed():
     stack, inst = priors.load(EXAMPLE)
     auto = simulate(stack, inst, Q, n=4, seed=0)
-    assert auto.nodes > 41  # the converged count for this sample's widest resolution
+    assert auto.nodes is None  # ReflectoFit's converged per-point rule
     fast = simulate(stack, dataclasses.replace(inst, nodes=41), Q, n=4, seed=0)
     assert fast.nodes == 41
     rel = np.max(np.abs(fast.reflectivity / auto.reflectivity - 1))

@@ -80,9 +80,10 @@ class InstrumentPrior:
     """log10 of the counts at R = 1."""
     wavelength: float = 1.5406
     nodes: int | None = None
-    """Resolution nodes for the whole dataset. None takes ReflectoFit's converged count for the widest
-    resolution and thickest stack in the dataset (within 1e-8 of a brute-force convolution), which
-    grows as 1 / sigma_q: 131 nodes at sigma_q 3e-3. A smaller fixed count is faster and less accurate."""
+    """None (default): ReflectoFit's converged per-point rule, within about 1e-5 of a brute-force
+    convolution; it costs most for wide resolution and weakly absorbing films. An int fixes the node
+    count for every point: faster, less accurate. Per NaNIsaac DECISIONS #24, fix it only with an
+    error budget against the counting noise stated in advance; the count is recorded in the metadata."""
 
 
 def _u(rng, r: Range, size):
