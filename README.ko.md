@@ -2,6 +2,8 @@
 
 [![Tests](https://github.com/NaNIsaac/ReflectoSim/actions/workflows/ci.yml/badge.svg)](https://github.com/NaNIsaac/ReflectoSim/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
+<img src="https://raw.githubusercontent.com/NaNIsaac/ReflectoSim/main/docs/media/curves.png" width="720" alt="examples/lab_films.toml에서 뽑은 곡선 네 개: 잡음 전 반사율과 Poisson 계수">
+
 기계학습용 현실적 합성 X선 반사율(XRR) 데이터: 층 구조와 기기에 대한 prior, 계수 잡음, 그리고 다시 만드는 방법을 기록하는 데이터셋 형식.
 
 측정 곡선과 닮은 시뮬레이션 곡선이 필요한 XRR 역문제 모델을 학습하거나 시험하는 사람을 위한 도구다. 두께에 묶인 거칠기와 이웃 사이 최소 대비를 갖춘 무작위 다층막, 지정한 위치의 자연 산화막, 가우시안 분해능, footprint, Kα₂, 2θ offset, 배경, Poisson 계수를 만든다. 곡선은 피팅 엔진 [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit)의 순방향 모델에서 나오므로, 이 곡선으로 학습한 네트워크와 같은 측정의 피팅이 같은 물리를 쓴다. 이 패키지는 데이터 분포만 더한다.

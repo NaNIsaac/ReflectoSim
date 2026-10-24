@@ -2,6 +2,8 @@
 
 [![Tests](https://github.com/NaNIsaac/ReflectoSim/actions/workflows/ci.yml/badge.svg)](https://github.com/NaNIsaac/ReflectoSim/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
+<img src="https://raw.githubusercontent.com/NaNIsaac/ReflectoSim/main/docs/media/curves.png" width="720" alt="Four curves drawn from examples/lab_films.toml: the reflectivity before noise and the Poisson counts">
+
 Realistic synthetic X-ray reflectivity (XRR) data for machine learning: priors over layer stacks and
 instruments, counting noise, and a dataset format that records how to regenerate it.
 
