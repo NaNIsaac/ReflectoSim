@@ -22,6 +22,16 @@ The counts do: NumPy's Poisson sampler draws a number of random numbers that dep
 counts, so a change to the curves (another ReflectoFit version, another node count) changes the
 counts of every later curve in the same 4096-row noise block, not only of the curves that changed.
 
+## Visual documentation
+
+![Prior sampling, ReflectoFit forward calculation, Poisson counts and dataset export](media/pipeline.svg)
+
+![Example configuration bounds; not measured or sampled histograms](media/prior-ranges.svg)
+
+![ReflectoFit-backed simulated XRR curves before and after Poisson noise](media/curves.png)
+
+Read the [visual guide](visual-guide.md) for parameter units, the structure diagram, interpretation of the curves and scientific caveats.
+
 ## Install
 
 Not on PyPI yet. From a clone, with [uv](https://docs.astral.sh/uv/) (it fetches ReflectoFit from
