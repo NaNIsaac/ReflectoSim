@@ -2,17 +2,17 @@
 
 ReflectoSim is a **distribution generator**, not an independent XRR forward solver. It samples a physical multilayer and an instrument configuration, calls [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) to evaluate the pre-noise signal, and adds counting noise. All figures below are either generated from the checked-in example prior or are explicitly labeled as architectural diagrams.
 
-## 1. Data generation at a glance
+## 1. Structure and measurement at a glance
 
 ![Generation pipeline: priors, physical sample, forward model, Poisson noise, reproducible dataset](media/pipeline.svg)
 
-Each row is an independent sample of the specified *joint prior*. ReflectoSim uses separate random streams for structure/instrument parameters and counting noise. Pre-noise curves are computed in chunks, while noise is drawn in fixed 4096-row blocks to make the result independent of the forward chunk setting. **Exact counts also depend on ReflectoFit/NumPy versions and numerical settings.**
+The left panel sketches film/oxide/substrate order, while the right panel follows the physical calculation to an observed count array. Geometric thicknesses in the drawing are not to scale. Each row is an independent sample of the specified *joint prior*. ReflectoSim uses separate random streams for structure/instrument parameters and counting noise. Pre-noise curves are computed in chunks, while noise is drawn in fixed 4096-row blocks to make the result independent of the forward chunk setting. **Exact counts also depend on ReflectoFit/NumPy versions and numerical settings.**
 
 ## 2. What the example actually samples
 
 ![Ranges declared in the example TOML prior, not a histogram of empirical measurements](media/prior-ranges.svg)
 
-These bars display the *endpoints of each variable's own interval*, not a common numeric axis and not the resulting marginal density. See [examples/lab_films.toml](../examples/lab_films.toml) for the full prior.
+Horizontal segments show the lower and upper endpoints at their actual numeric positions. Thickness and roughness share a 0–250 Å axis, real SLDs share a 0–80 × 10⁻⁶ Å⁻² axis, and q resolution has its own 0–0.003 Å⁻¹ axis. These are configured bounds, **not** a sampled histogram or marginal density. See [examples/lab_films.toml](../examples/lab_films.toml) for the full prior.
 
 | Parameter | Example prior | Interpretation |
 | --- | --- | --- |

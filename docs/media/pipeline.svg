@@ -1,15 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 420" role="img" aria-labelledby="t d">
-<title id="t">ReflectoSim synthetic XRR generation pipeline</title><desc id="d">A TOML prior samples physical stacks and instruments; ReflectoFit evaluates forward reflectivity; a separate random stream produces Poisson counts; arrays and metadata are saved.</desc>
-<style>text{font-family:Arial,sans-serif;fill:#eaf1ff}.h{font-weight:700;font-size:23px}.s{font-size:16px}.tiny{font-size:14px;fill:#a9bcd8}.box{fill:#18253d;stroke:#5688bc;stroke-width:2}.arrow{stroke:#7ec9ed;stroke-width:3;fill:none;marker-end:url(#a)}.tag{font-size:15px;fill:#a7e8cd}</style>
-<defs><marker id="a" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 Z" fill="#7ec9ed"/></marker></defs>
-<rect width="1100" height="420" rx="24" fill="#0e1728"/>
-<text x="42" y="49" class="h">ReflectoSim: from priors to training data</text>
-<rect class="box" x="40" y="96" rx="14" width="215" height="165"/><text x="60" y="135" class="h">TOML priors</text><text x="60" y="165" class="s">layer count / d / SLD</text><text x="60" y="189" class="s">roughness / oxide</text><text x="60" y="213" class="s">instrument / counts</text><text x="60" y="242" class="tag">seed: parameter stream</text>
-<rect class="box" x="307" y="96" rx="14" width="219" height="165"/><text x="327" y="135" class="h">Sample rows</text><text x="327" y="165" class="s">physical stacks</text><text x="327" y="189" class="s">instrument settings</text><text x="327" y="213" class="s">packed media arrays</text><text x="327" y="242" class="tag">reproducible inputs</text>
-<rect class="box" x="580" y="96" rx="14" width="215" height="165"/><text x="600" y="135" class="h">ReflectoFit</text><text x="600" y="165" class="s">forward(q, stack, inst)</text><text x="600" y="189" class="s">resolution / footprint</text><text x="600" y="213" class="s">offset / background</text><text x="600" y="242" class="tag">pre-noise intensity</text>
-<rect class="box" x="848" y="96" rx="14" width="210" height="165"/><text x="868" y="135" class="h">Poisson draw</text><text x="868" y="165" class="s">mean = scale ×</text><text x="868" y="189" class="s">pre-noise signal</text><text x="868" y="213" class="s">counts ~ Poisson(mean)</text><text x="868" y="242" class="tag">seed: noise stream</text>
-<path class="arrow" d="M255 178 H307"/><path class="arrow" d="M526 178 H580"/><path class="arrow" d="M795 178 H848"/>
-<path d="M952 261 V308 H152 V261" stroke="#7ec9ed" stroke-width="2" fill="none" stroke-dasharray="7 6"/>
-<rect class="box" x="285" y="326" rx="13" width="530" height="59"/><text x="310" y="361" class="s">NPZ / HDF5: q, counts, reflectivity, parameters, metadata</text>
-<path class="arrow" d="M550 308 V326"/><text x="42" y="305" class="tiny">Parameter sampling and counting noise use separate RNG streams.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+<title id="title">ReflectoSim physics-oriented overview showing multilayer geometry and forward measurement</title>
+<desc id="desc">Incoming X ray strikes ambient, variable films, native oxide, and silicon substrate; reflected signal is converted by the instrument response and Poisson counting to a dataset. Diagram conceptual and not to scale.</desc>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#e8f1ff}.title{font-size:26px;font-weight:700}.sub{font-size:15px;fill:#aabdce}.h{font-size:18px;font-weight:700}.body{font-size:16px}.small{font-size:14px}.arrow{stroke:#81d6ed;stroke-width:3;fill:none;marker-end:url(#tip)}.dash{stroke:#94b2d5;stroke-width:1.5;stroke-dasharray:5 7}.frame{fill:#152840;stroke:#46617f;stroke-width:1.5}</style>
+<defs><marker id="tip" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0 0 L0 6 L8 3Z" fill="#81d6ed"/></marker></defs>
+<rect width="1100" height="620" rx="20" fill="#0e1829"/><text x="32" y="48" class="title">What ReflectoSim simulates</text><text x="32" y="75" class="sub">Layer order, interface contrast and instrument response create synthetic XRR intensity · schematic, not to scale</text>
+<rect x="30" y="108" width="555" height="414" rx="18" class="frame"/>
+<text x="55" y="140" class="h">A. Physical stack · oxide = under</text>
+<g><rect x="75" y="225" width="430" height="54" fill="#28435c"/><rect x="75" y="279" width="430" height="44" fill="#3c7b93"/><rect x="75" y="323" width="430" height="39" fill="#5ea4ba"/><rect x="75" y="362" width="430" height="20" fill="#d7a268"/><rect x="75" y="382" width="430" height="87" fill="#63708c"/></g>
+<text x="96" y="257" class="body">Film 0 · d₀, ρ₀, σ₀</text><text x="96" y="307" class="body">Film 1 · if present</text><text x="96" y="348" class="small">Film N−1 · optional</text><text x="96" y="377" class="small" fill="#172035">native oxide</text><text x="96" y="427" class="body">Si substrate</text>
+<line x1="125" y1="179" x2="245" y2="226" class="arrow"/><line x1="245" y1="226" x2="381" y2="165" class="arrow"/><text x="75" y="179" class="small">incident</text><text x="389" y="161" class="small">reflected</text>
+<text x="55" y="495" class="sub">σ: interfacial roughness · ρ: complex SLD · d: layer thickness</text>
+<path class="arrow" d="M585 312 H640"/>
+<rect x="640" y="106" width="427" height="414" rx="18" class="frame"/>
+<text x="662" y="140" class="h">B. From stack to counts</text>
+<rect x="662" y="163" width="382" height="83" rx="12" fill="#28405a"/><text x="682" y="192" class="h">ReflectoFit.forward</text><text x="682" y="219" class="body">stack + instrument + q grid → μ(q)</text>
+<path class="arrow" d="M855 246 V276"/>
+<rect x="662" y="280" width="382" height="84" rx="12" fill="#28405a"/><text x="682" y="308" class="h">Counting statistics</text><text x="682" y="334" class="body">λ(q) = counts_scale × μ(q)</text><text x="682" y="354" class="small">counts(q) ∼ Poisson[λ(q)]</text>
+<path class="arrow" d="M855 364 V391"/>
+<rect x="662" y="396" width="382" height="89" rx="12" fill="#28405a"/><text x="682" y="426" class="h">Training dataset</text><text x="682" y="449" class="body">q · counts · μ · parameters</text><text x="682" y="470" class="small">NPZ / HDF5 + seed + prior metadata</text>
+<text x="35" y="567" class="sub">TOML priors sample layer and instrument parameters; structure and noise use separate seeded RNG streams.</text>
+<text x="35" y="591" class="sub">The stored field called 'reflectivity' is the instrument-affected pre-noise signal μ(q), not bare reflectivity.</text>
 </svg>
