@@ -10,6 +10,16 @@
 
 상태: 초기 개발 단계.
 
+## 그림으로 보는 생성 과정
+
+![ReflectoSim의 prior에서 데이터셋으로 이어지는 생성 과정](docs/media/pipeline.svg)
+
+아래 그림은 **예제 TOML에서 지정한 파라미터 범위**를 나타내며, 실측 데이터의 분포나 실제 샘플의 히스토그램이 아니다. 두께-거칠기 제약과 인접 층 SLD 대비 조건 때문에 실제 추출 분포는 단순한 균일 분포와 다를 수 있다.
+
+![examples/lab_films.toml에 정의된 파라미터 범위](docs/media/prior-ranges.svg)
+
+상단 XRR 그래프는 실제 ReflectoFit 기반 시뮬레이터의 출력이다. 실선은 잡음 이전의 신호, 점은 Poisson 계수를 정규화한 값이다. 그래프 해석, 층 순서, 단위, 재현성과 주의사항은 [시각 설명 문서](docs/visual-guide.md)에 정리했다.
+
 ## 설치
 
 아직 PyPI에 없다. clone한 뒤 [uv](https://docs.astral.sh/uv/)로(ReflectoFit은 GitHub에서 받는다):
