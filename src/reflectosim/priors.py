@@ -1,7 +1,7 @@
 """Priors over structures and instruments.
 
 Ranges are (low, high) tuples drawn uniformly; a range with low == high is a fixed value. Units as in
-ReflectoFit: Å, 1e-6 Å⁻², Å⁻¹, degrees, mm.
+ReflectoSim: Å, 1e-6 Å⁻², Å⁻¹, degrees, mm.
 """
 
 import tomllib
@@ -10,7 +10,8 @@ from pathlib import Path
 from typing import Literal
 
 import numpy as np
-from reflectofit import materials
+
+from reflectosim import materials
 
 Range = tuple[float, float]
 
@@ -80,9 +81,9 @@ class InstrumentPrior:
     """log10 of the counts at R = 1."""
     wavelength: float = 1.5406
     nodes: int | None = None
-    """None (default): ReflectoFit's per-point rule (windows split at the critical edges, refined
+    """None (default): the per-point rule (windows split at the critical edges, refined
     between them; ReflectoFit#8), within 1e-4 of a brute-force convolution on its confirmation grids
-    (worst 8.8e-6), real SLDs included; `reflectofit.forward.resolution_report` gives its estimated
+    (worst 8.8e-6), real SLDs included; `reflectosim.forward.resolution_report` gives its estimated
     error per point. An int fixes the node count for every point; a fixed count is not accurate at
     the edges of non-absorbing films. Per NaNIsaac DECISIONS #24, fix it only with an
     error budget against the counting noise stated in advance; the count is recorded in the metadata."""
