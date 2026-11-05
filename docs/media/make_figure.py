@@ -10,9 +10,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-from reflectosim import tth_to_q
 
-from reflectosim import priors, simulate
+from reflectosim import priors, simulate, tth_to_q
 
 ROOT = Path(__file__).resolve().parents[2]
 SEED = (20261024, 7)
