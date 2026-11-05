@@ -1,6 +1,6 @@
 [project]
 name = "reflectosim"
-version = "0.1.0.dev0"
+version = "0.1.0"
 description = "X-ray reflectivity forward physics and synthetic data generation"
 readme = "README.md"
 license = "MIT"
