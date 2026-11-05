@@ -22,7 +22,14 @@
 
 ## 설치
 
-아직 PyPI에 없다. clone한 뒤 [uv](https://docs.astral.sh/uv/)로:
+```sh
+pip install reflectosim
+```
+
+선택 extra: `reflectosim[hdf5]`는 `.h5` 데이터셋(h5py), `reflectosim[torch]`는 미분 가능한 torch forward를
+더한다. 쓰지 않으면 h5py와 torch는 설치되지 않는다.
+
+패키지를 고치거나 아래 예제를 돌리려면 clone한 뒤 [uv](https://docs.astral.sh/uv/)로:
 
 ```sh
 git clone https://github.com/NaNIsaac/ReflectoSim
