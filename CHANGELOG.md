@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.0 - 2026-11-06
 
 - The forward physics lives here: Parratt kernel, structures, units, materials, the resolution
   integral and the differentiable torch forward moved from ReflectoFit (source commit
