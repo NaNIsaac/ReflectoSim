@@ -10,7 +10,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-from reflectofit import tth_to_q
+from reflectosim import tth_to_q
 
 from reflectosim import priors, simulate
 

@@ -6,7 +6,7 @@
 
 기계학습용 현실적 합성 X선 반사율(XRR) 데이터: 층 구조와 기기에 대한 prior, 계수 잡음, 그리고 다시 만드는 방법을 기록하는 데이터셋 형식.
 
-측정 곡선과 닮은 시뮬레이션 곡선이 필요한 XRR 역문제 모델을 학습하거나 시험하는 사람을 위한 도구다. 두께에 묶인 거칠기와 이웃 사이 최소 대비를 갖춘 무작위 다층막, 지정한 위치의 자연 산화막, 가우시안 분해능, footprint, Kα₂, 2θ offset, 배경, Poisson 계수를 만든다. 곡선은 피팅 엔진 [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit)의 순방향 모델에서 나오므로, 이 곡선으로 학습한 네트워크와 같은 측정의 피팅이 같은 물리를 쓴다. 이 패키지는 데이터 분포만 더한다.
+측정 곡선과 닮은 시뮬레이션 곡선이 필요한 XRR 역문제 모델을 학습하거나 시험하는 사람을 위한 도구다. 두께에 묶인 거칠기와 이웃 사이 최소 대비를 갖춘 무작위 다층막, 지정한 위치의 자연 산화막, 가우시안 분해능, footprint, Kα₂, 2θ offset, 배경, Poisson 계수를 만든다. 순방향 물리 전체(미분 가능한 torch 순방향 포함)와 그 위의 데이터 생성을 이 패키지가 맡고, 피팅 엔진 [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit)이 이 패키지에 의존한다. 그래서 이 곡선으로 학습한 네트워크와 같은 측정의 피팅이 같은 물리를 쓴다.
 
 상태: 초기 개발 단계.
 
@@ -18,11 +18,11 @@
 
 ![examples/lab_films.toml에 정의된 파라미터 범위](docs/media/prior-ranges.svg)
 
-상단 XRR 그래프는 실제 ReflectoFit 기반 시뮬레이터의 출력이다. 실선은 잡음 이전의 신호, 점은 Poisson 계수를 정규화한 값이다. 그래프 해석, 층 순서, 단위, 재현성과 주의사항은 [시각 설명 문서](docs/visual-guide.md)에 정리했다.
+상단 XRR 그래프는 시뮬레이터의 출력이다. 실선은 잡음 이전의 신호, 점은 Poisson 계수를 정규화한 값이다. 그래프 해석, 층 순서, 단위, 재현성과 주의사항은 [시각 설명 문서](docs/visual-guide.md)에 정리했다.
 
 ## 설치
 
-아직 PyPI에 없다. clone한 뒤 [uv](https://docs.astral.sh/uv/)로(ReflectoFit은 GitHub에서 받는다):
+아직 PyPI에 없다. clone한 뒤 [uv](https://docs.astral.sh/uv/)로:
 
 ```sh
 git clone https://github.com/NaNIsaac/ReflectoSim
@@ -50,8 +50,7 @@ prior는 TOML 파일이고 `examples/lab_films.toml`에 모든 항목이 있다.
 
 ```python
 import numpy as np
-from reflectofit import tth_to_q
-from reflectosim import InstrumentPrior, StackPrior, simulate
+from reflectosim import InstrumentPrior, StackPrior, simulate, tth_to_q
 
 stack = StackPrior(
     n_layers=(1, 3),

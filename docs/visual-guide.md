@@ -1,12 +1,12 @@
 # Visual guide to synthetic X-ray reflectivity
 
-ReflectoSim is a **distribution generator**, not an independent XRR forward solver. It samples a physical multilayer and an instrument configuration, calls [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) to evaluate the pre-noise signal, and adds counting noise. All figures below are either generated from the checked-in example prior or are explicitly labeled as architectural diagrams.
+ReflectoSim is a **distribution generator**, not an independent XRR forward solver. It samples a physical multilayer and an instrument configuration, evaluates the pre-noise signal with its own forward model, and adds counting noise. All figures below are either generated from the checked-in example prior or are explicitly labeled as architectural diagrams.
 
 ## 1. Data generation at a glance
 
 ![Generation pipeline: priors, physical sample, forward model, Poisson noise, reproducible dataset](media/pipeline.svg)
 
-Each row is an independent sample of the specified *joint prior*. ReflectoSim uses separate random streams for structure/instrument parameters and counting noise. Pre-noise curves are computed in chunks, while noise is drawn in fixed 4096-row blocks to make the result independent of the forward chunk setting. **Exact counts also depend on ReflectoFit/NumPy versions and numerical settings.**
+Each row is an independent sample of the specified *joint prior*. ReflectoSim uses separate random streams for structure/instrument parameters and counting noise. Pre-noise curves are computed in chunks, while noise is drawn in fixed 4096-row blocks to make the result independent of the forward chunk setting. **Exact counts also depend on ReflectoSim/NumPy versions and numerical settings.**
 
 ## 2. What the example actually samples
 
@@ -61,7 +61,7 @@ Set `oxide = "over"` to put the oxide *above* the films, or `oxide = "none"` to 
 Conceptually, the pipeline can be represented as
 
 ```text
-sample stack, instrument → ReflectoFit.forward(q, stack, instrument)
+sample stack, instrument → reflectosim.forward(q, stack, instrument)
                          → pre-noise observed intensity μ(q)
                          → λ(q) = counts_scale × μ(q)
                          → counts(q) ∼ Poisson(λ(q))
@@ -86,7 +86,7 @@ uv run reflectosim describe train.npz
 ### Scientific caveats
 
 1. **Synthetic is not validated experimental realism.** Noise, background, footprint, roughness and resolution are modeled, but their prior ranges must be checked against a real instrument and sample population.
-2. **Forward-model matching is not an independent test.** ReflectoFit generates the simulated curves, so agreement with ReflectoFit alone cannot validate the physical model against measured data.
+2. **Forward-model matching is not an independent test.** The same forward model generates the simulated curves, so agreement with it alone cannot validate the physical model against measured data.
 3. **Resolution accuracy is not free.** Default per-point adaptive integration is preferred for sharp edges. Fixed `nodes` must be justified against an explicit error budget; see [docs/index.md](index.md).
 4. **Reproducibility is conditional.** Pin software versions and numerical settings, preserve the TOML and metadata, and compare saved arrays when modifying the pipeline.
 

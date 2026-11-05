@@ -2,13 +2,13 @@
 
 import dataclasses
 import json
+from importlib.metadata import version
 from pathlib import Path
 
 import numpy as np
 import pytest
-from reflectofit import tth_to_q
 
-from reflectosim import dataset, priors, simulate
+from reflectosim import dataset, priors, simulate, tth_to_q
 from reflectosim.cli import main
 from reflectosim.noise import poisson_counts
 
@@ -44,6 +44,31 @@ def test_dataset_round_trip(made, tmp_path, suffix):
         *priors.from_metadata(meta), arrays["q"], n=meta["n"], seed=tuple(meta["seed"])
     )
     np.testing.assert_array_equal(again.counts, batch.counts)
+
+
+def test_metadata_records_the_physics_version(made):
+    stack, inst, batch = made
+    meta = dataset.metadata(batch, stack, inst)
+    assert meta["reflectosim"] == version("reflectosim")
+    assert "reflectofit" not in meta
+
+
+def test_file_written_with_the_old_version_key_still_loads(made, tmp_path, capsys):
+    stack, inst, batch = made
+    path = dataset.write(tmp_path / "new.npz", batch, stack, inst)
+    with np.load(path) as z:
+        fields = {k: z[k] for k in z.files}
+    meta = json.loads(str(fields["metadata"]))
+    meta["reflectofit"] = "0.1.0.dev0"
+    meta["backend"] = "reflectofit numba float64"
+    fields["metadata"] = np.array(json.dumps(meta))
+    old = tmp_path / "old.npz"
+    np.savez_compressed(old, **fields)
+    arrays, _, loaded = dataset.read(old)
+    np.testing.assert_array_equal(arrays["counts"], batch.counts.astype(np.float32))
+    assert loaded["reflectofit"] == "0.1.0.dev0"
+    assert main(["describe", str(old)]) == 0
+    assert '"reflectofit": "0.1.0.dev0"' in capsys.readouterr().out
 
 
 def test_noise_terms():
@@ -87,7 +112,7 @@ def test_cli_sim_and_describe(tmp_path, capsys):
 def test_node_count_can_be_fixed_for_speed():
     stack, inst = priors.load(EXAMPLE)
     auto = simulate(stack, inst, Q, n=4, seed=0)
-    assert auto.nodes is None  # ReflectoFit's converged per-point rule
+    assert auto.nodes is None  # the converged per-point rule
     fast = simulate(stack, dataclasses.replace(inst, nodes=41), Q, n=4, seed=0)
     assert fast.nodes == 41
     rel = np.max(np.abs(fast.reflectivity / auto.reflectivity - 1))

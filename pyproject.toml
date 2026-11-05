@@ -1,7 +1,7 @@
 [project]
 name = "reflectosim"
 version = "0.1.0.dev0"
-description = "Realistic synthetic X-ray reflectivity data for machine learning"
+description = "X-ray reflectivity forward physics and synthetic data generation"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -21,11 +21,14 @@ classifiers = [
 requires-python = ">=3.12"
 dependencies = [
     "numpy>=2.0",
-    "reflectofit",
+    "numba>=0.61",
+    "scipy>=1.13",
+    "periodictable>=2.1.0",
 ]
 
 [project.optional-dependencies]
 hdf5 = ["h5py>=3.10"]
+torch = ["torch>=2.5"]
 
 [project.scripts]
 reflectosim = "reflectosim.cli:main"
@@ -40,11 +43,19 @@ Changelog = "https://github.com/NaNIsaac/ReflectoSim/blob/main/CHANGELOG.md"
 dev = [
     "pytest>=8.0",
     "h5py>=3.10",
+    "refnx>=0.1.60",
+    "jax>=0.4.30",
+    "torch>=2.5",
 ]
 
-# reflectofit is not on PyPI yet: pinned to a commit of ReflectoFit main until its first release.
+# CPU torch wheels for this project's own lock (tests, CI); installs from PyPI are not affected.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
 [tool.uv.sources]
-reflectofit = { git = "https://github.com/NaNIsaac/ReflectoFit", rev = "9abdbb1ab658ca6c5e51989c5764f6ab785c4127" }
+torch = [{ index = "pytorch-cpu" }]
 
 [build-system]
 requires = ["uv_build>=0.12.7,<0.13"]
@@ -52,9 +63,12 @@ build-backend = "uv_build"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 
 [tool.ruff]
 line-length = 100
+# verbatim copies of other engines, compared against in tests/test_reference_engines.py
+extend-exclude = ["tests/reference/reflectolearn_abeles.py"]
 
 [tool.ruff.lint]
 extend-select = ["B", "I", "UP"]
