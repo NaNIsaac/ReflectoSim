@@ -1,4 +1,4 @@
-"""Counting noise for simulated curves (ReflectoFit DESIGN.md section 2, Counts)."""
+"""Counting noise for simulated curves (counts at R = 1 scaled per row, Poisson draw)."""
 
 import numpy as np
 from numpy.typing import NDArray

@@ -1,7 +1,6 @@
 """What a simulated dataset promises, pinned before the generator is written.
 
-1. Before noise, every curve is ReflectoFit's forward model for that row's stack and instrument:
-   the simulator has no physics of its own (ReflectoFit DESIGN.md section 0.2).
+1. Before noise, every curve is `reflectosim.forward` for that row's stack and instrument.
 2. Curves with fewer layers are padded to a common width without changing them.
 3. The prior's constraints hold on every row: sigma <= ratio * d, adjacent contrast.
 4. The oxide position is never implicit, and it is where the prior says.
@@ -10,9 +9,18 @@
 
 import numpy as np
 import pytest
-from reflectofit import Instrument, Layer, Stack, forward, tth_to_q
 
-from reflectosim import InstrumentPrior, OxidePrior, StackPrior, simulate
+from reflectosim import (
+    Instrument,
+    InstrumentPrior,
+    Layer,
+    OxidePrior,
+    Stack,
+    StackPrior,
+    forward,
+    simulate,
+    tth_to_q,
+)
 
 Q = tth_to_q(np.linspace(0.05, 8.0, 200))
 STACK = StackPrior(
@@ -76,7 +84,7 @@ def _row(batch, i):
     return Stack(layers, sub), inst
 
 
-def test_curves_before_noise_are_reflectofit_forward(batch):
+def test_curves_before_noise_are_reflectosim_forward(batch):
     for i in range(0, 64, 7):
         stack, inst = _row(batch, i)
         np.testing.assert_allclose(batch.reflectivity[i], forward(Q, stack, inst), rtol=1e-12)

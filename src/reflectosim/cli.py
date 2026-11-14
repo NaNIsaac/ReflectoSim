@@ -5,21 +5,10 @@ import json
 import sys
 
 import numpy as np
-from reflectofit import tth_to_q
 
 from reflectosim import __version__, dataset, priors
+from reflectosim.grid import q_grid
 from reflectosim.simulate import simulate
-
-
-def _grid(spec: str, wavelength: float) -> np.ndarray:
-    """'tth:START:STOP:N' (degrees) or 'q:START:STOP:N' (1/A)."""
-    axis, start, stop, n = spec.split(":")
-    values = np.linspace(float(start), float(stop), int(n))
-    if axis == "tth":
-        return tth_to_q(values, wavelength)
-    if axis == "q":
-        return values
-    raise SystemExit(f"grid axis must be tth or q, got {axis!r}")
 
 
 def _seed(text: str):
@@ -29,7 +18,7 @@ def _seed(text: str):
 
 def _sim(args) -> int:
     stack, inst = priors.load(args.prior)
-    q = _grid(args.grid, inst.wavelength)
+    q = q_grid(args.grid, inst.wavelength)
     batch = simulate(stack, inst, q, n=args.n, seed=_seed(args.seed))
     out = dataset.write(args.out, batch, stack, inst)
     print(f"wrote {out}: {args.n} curves x {q.size} points, oxide {stack.oxide}, "
@@ -49,7 +38,13 @@ def _describe(args) -> int:
         if ok.any():
             print(f"  {k:<{width}}  {v[ok].min():.4g} .. {v[ok].max():.4g}  ({ok.sum()} rows)")
     print(
-        json.dumps({k: meta[k] for k in ("reflectosim", "reflectofit", "seed", "resolution_nodes")})
+        json.dumps(
+            {
+                k: meta[k]
+                for k in ("reflectosim", "reflectofit", "seed", "resolution_nodes")
+                if k in meta
+            }
+        )
     )
     return 0
 

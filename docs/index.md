@@ -11,31 +11,30 @@ whose position you must state (on the substrate, on top, or none). The instrumen
 resolution, 2θ offset, I0, background, Cu Kα₂, footprint and counting statistics. Counts are Poisson,
 with optional dark counts and read noise.
 
-The curves come from the forward model of [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit),
-the fitting engine; ReflectoSim adds the data distribution and has no physics of its own. Before
-noise, every curve equals `reflectofit.forward` for its row, a curve does not depend on how the work
+ReflectoSim holds all the forward physics, including the differentiable torch forward, and the
+generation on top of it; the fitting engine [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit)
+depends on it. Before noise, every curve equals `reflectosim.forward` for its row, a curve does not depend on how the work
 is chunked, and the same seed gives the same file.
 
-The same seed gives the same file only with the same ReflectoFit version and settings. The parameters
+The same seed gives the same file only with the same ReflectoSim version and settings. The parameters
 and the noise use separate random streams, so the parameters of a seed never depend on the curves.
 The counts do: NumPy's Poisson sampler draws a number of random numbers that depends on the expected
-counts, so a change to the curves (another ReflectoFit version, another node count) changes the
+counts, so a change to the curves (another ReflectoSim version, another node count) changes the
 counts of every later curve in the same 4096-row noise block, not only of the curves that changed.
 
 ## Visual documentation
 
-![Prior sampling, ReflectoFit forward calculation, Poisson counts and dataset export](media/pipeline.svg)
+![Prior sampling, forward calculation, Poisson counts and dataset export](media/pipeline.svg)
 
 ![Example configuration bounds; not measured or sampled histograms](media/prior-ranges.svg)
 
-![ReflectoFit-backed simulated XRR curves before and after Poisson noise](media/curves.png)
+![Simulated XRR curves before and after Poisson noise](media/curves.png)
 
 Read the [visual guide](visual-guide.md) for parameter units, the structure diagram, interpretation of the curves and scientific caveats.
 
 ## Install
 
-Not on PyPI yet. From a clone, with [uv](https://docs.astral.sh/uv/) (it fetches ReflectoFit from
-GitHub):
+Not on PyPI yet. From a clone, with [uv](https://docs.astral.sh/uv/):
 
 ```sh
 git clone https://github.com/NaNIsaac/ReflectoSim
@@ -58,10 +57,10 @@ The dataset layout, the prior file format and the Python API are in the
 
 ## Accuracy and cost
 
-By default the resolution integral uses ReflectoFit's per-point rule: each window is split at the
-critical edges and refined between them, within 1e-4 of a brute-force convolution on ReflectoFit's
+By default the resolution integral uses the per-point rule: each window is split at the
+critical edges and refined between them, within 1e-4 of a brute-force convolution on the
 confirmation grids, real SLDs and superlattices included, at about 0.75 s for 64 curves of 2000
 points (ReflectoFit#8). `InstrumentPrior.nodes` fixes a node count instead; a fixed count is not
-accurate at the edges of non-absorbing films, and per NaNIsaac DECISIONS #24 it is for generators
+accurate at the edges of non-absorbing films, and it is for generators
 who state an error budget against the counting noise in advance and record it in the dataset
 metadata.

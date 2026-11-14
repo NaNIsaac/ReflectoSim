@@ -16,7 +16,7 @@ from reflectosim import priors
 from reflectosim.simulate import Batch
 
 CONVENTIONS = (
-    "ReflectoFit DESIGN.md section 2: ambient first, roughness of the interface above, Im SLD > 0 "
+    "ambient first, roughness of the interface above, Im SLD > 0 "
     "absorbs, SLD 1e-6 A^-2, q A^-1, angles in degrees; reflectivity is I0 * smeared R + background "
     "before noise; counts are Poisson(counts_scale * reflectivity)"
 )
@@ -26,13 +26,12 @@ def metadata(batch: Batch, stack: priors.StackPrior, instrument: priors.Instrume
     seed = list(batch.seed) if isinstance(batch.seed, tuple | list) else batch.seed
     return {
         "reflectosim": version("reflectosim"),
-        "reflectofit": version("reflectofit"),
         "stack_prior": priors.to_dict(stack),
         "instrument_prior": priors.to_dict(instrument),
         "seed": seed,
         "n": int(batch.counts.shape[0]),
         "resolution_nodes": batch.nodes,
-        "backend": "reflectofit numba float64",
+        "backend": "reflectosim numba float64",
         "conventions": CONVENTIONS,
     }
 

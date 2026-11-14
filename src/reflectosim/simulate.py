@@ -1,6 +1,6 @@
-"""Draw stacks and instruments from priors and simulate their curves with ReflectoFit.
+"""Draw stacks and instruments from priors and simulate their curves.
 
-Curves before noise are `reflectofit.forward` for each row (this package has no physics of its own).
+Curves before noise are `reflectosim.forward` for each row.
 Rows with fewer layers than the prior's maximum are padded with zero-thickness layers that match the
 medium below, which leaves the curve unchanged. The resolution nodes are chosen per curve (or fixed
 by the prior), so a row's curve does not depend on how the work is chunked.
@@ -10,8 +10,8 @@ from dataclasses import dataclass
 
 import numpy as np
 from numpy.typing import NDArray
-from reflectofit import Instrument, forward
 
+from reflectosim.forward import Instrument, forward
 from reflectosim.noise import poisson_counts
 from reflectosim.priors import InstrumentPrior, StackPrior, draw_instruments, draw_stacks
 
@@ -31,7 +31,7 @@ class Batch:
     counts: NDArray
     oxide: str
     nodes: int | None
-    """The fixed resolution node count, or None for ReflectoFit's converged per-point rule."""
+    """The fixed resolution node count, or None for the converged per-point rule."""
     seed: object
 
 
@@ -106,8 +106,8 @@ def simulate(
     params = draw_stacks(prior, n, rng) | draw_instruments(instrument, n, rng)
     packed = pack(prior, params)
 
-    # None: ReflectoFit chooses nodes per point from each curve's own stack and instrument, so a
-    # curve does not depend on its chunk; an int fixes the count for every point (DECISIONS #24)
+    # None: the forward model chooses nodes per point from each curve's own stack and instrument, so a
+    # curve does not depend on its chunk; an int fixes the count for every point
     nodes = instrument.nodes
     footprint = not np.isnan(params["sample_length"]).all()
 
