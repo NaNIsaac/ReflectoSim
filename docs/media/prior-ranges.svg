@@ -3,7 +3,7 @@
 <desc id="desc">Thicknesses share one 0 to 250 angstrom scale; real SLDs share 0 to 80 scale; instrument q resolution has its own 0 to 0.003 inverse angstrom scale. Segments begin at configured minima, not zero. No sampled frequencies are shown.</desc>
 <style>text{font-family:Arial,Helvetica,sans-serif;fill:#e7efff}.title{font-size:25px;font-weight:700}.note{font-size:15px;fill:#aabbd4}.head{font-size:19px;font-weight:700;fill:#9ddff2}.name{font-size:18px}.tick{font-size:14px;fill:#9eb0c8}.val{font-size:16px;fill:#b6efd1}.grid{stroke:#304460;stroke-width:1}.bar{stroke:#47c4e2;stroke-width:11;stroke-linecap:round}.oxide{stroke:#efa96a;stroke-width:11;stroke-linecap:round}.dot{fill:#f8fafc}</style>
 <rect width="1060" height="685" rx="18" fill="#101a2b"/>
-<text x="34" y="48" class="title">The prior is not a 100%-filled bar</text><text x="34" y="73" class="note">Intervals plotted at their actual positions on a shared numeric scale per physical quantity</text>
+<text x="34" y="48" class="title">Example prior bounds</text><text x="34" y="73" class="note">Intervals plotted at their actual positions on a shared numeric scale per physical quantity</text>
 <text x="35" y="119" class="head">THICKNESS / ROUGHNESS · Å</text>
 <g><line class="grid" x1="300" x2="300" y1="148" y2="302"/><line class="grid" x1="420" x2="420" y1="148" y2="302"/><line class="grid" x1="540" x2="540" y1="148" y2="302"/><line class="grid" x1="660" x2="660" y1="148" y2="302"/><line class="grid" x1="780" x2="780" y1="148" y2="302"/><line class="grid" x1="900" x2="900" y1="148" y2="302"/></g>
 <g class="tick"><text x="295" y="141">0</text><text x="411" y="141">50</text><text x="527" y="141">100</text><text x="647" y="141">150</text><text x="767" y="141">200</text><text x="887" y="141">250</text></g>
@@ -19,6 +19,6 @@
 <text x="35" y="546" class="head">GAUSSIAN q RESOLUTION · Å⁻¹</text>
 <g><line class="grid" x1="300" x2="300" y1="574" y2="635"/><line class="grid" x1="500" x2="500" y1="574" y2="635"/><line class="grid" x1="700" x2="700" y1="574" y2="635"/><line class="grid" x1="900" x2="900" y1="574" y2="635"/></g>
 <g class="tick"><text x="295" y="569">0</text><text x="482" y="569">0.001</text><text x="682" y="569">0.002</text><text x="882" y="569">0.003</text></g>
-<text x="35" y="611" class="name">σq</text><line class="bar" x1="400" y1="606" x2="900" y2="606"/><circle class="dot" cx="400" cy="606" r="4"/><circle class="dot" cx="900" cy="606" r="4"/><text x="362" y="650" class="val">0.0005</text><text x="830" y="650" class="val">0.003</text>
+<text x="35" y="611" class="name">σq</text><line class="bar" x1="400" y1="606" x2="900" y2="606"/><circle class="dot" cx="400" cy="606" r="4"/><circle class="dot" cx="900" cy="606" r="4"/><text x="917" y="612" class="val">0.0005–0.003</text>
 <text x="35" y="674" class="note">Configured bounds, not histograms or measured data · examples/lab_films.toml</text>
 </svg>
