@@ -1,5 +1,7 @@
 # ReflectoSim
 
+[한국어](README.ko.md)
+
 [![Tests](https://github.com/NaNIsaac/ReflectoSim/actions/workflows/ci.yml/badge.svg)](https://github.com/NaNIsaac/ReflectoSim/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 <img src="https://raw.githubusercontent.com/NaNIsaac/ReflectoSim/main/docs/media/curves.png" width="720" alt="Four curves drawn from examples/lab_films.toml: the reflectivity before noise and the Poisson counts">

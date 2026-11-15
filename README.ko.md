@@ -1,5 +1,7 @@
 # ReflectoSim
 
+[English](README.md)
+
 [![Tests](https://github.com/NaNIsaac/ReflectoSim/actions/workflows/ci.yml/badge.svg)](https://github.com/NaNIsaac/ReflectoSim/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 <img src="https://raw.githubusercontent.com/NaNIsaac/ReflectoSim/main/docs/media/curves.png" width="720" alt="examples/lab_films.toml에서 뽑은 곡선 네 개: 잡음 전 반사율과 Poisson 계수">
